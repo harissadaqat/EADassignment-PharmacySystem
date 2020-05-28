@@ -1,0 +1,134 @@
+@{
+    ViewBag.pagenumber = 1;
+    String checker = (String)Session["flag"];    
+}
+@using System.Data.SqlClient;
+@using System;
+@using System.Collections.Generic;
+@using System.Linq;
+@{
+    SqlConnection conn = new SqlConnection(@"Data Source=(LocalDB)\v11.0;AttachDbFilename='E:\8 SEMESTER\EAD Assignment-3\Pharmacy management system\Project\App_Data\Store.mdf';Integrated Security=True");
+    SqlCommand cmd;
+    List<String> medicine = new List<String>();
+    List<String> imgPath = new List<String>();
+    List<int> price = new List<int>();
+    List<int> qty = new List<int>();
+    int pagenum = (int)Session["pagenumber"];
+    String sql = "select * from Stock";
+    conn.Open();
+    cmd = new SqlCommand(sql, conn);
+    SqlDataReader reader = cmd.ExecuteReader();
+    while (reader.Read())
+    {
+        medicine.Add(reader.GetString(1));
+        qty.Add(int.Parse(reader.GetString(2)));
+        imgPath.Add(reader.GetString(3));
+        price.Add(int.Parse(reader.GetString(4)));
+    }
+    conn.Close();
+        
+}
+<html>
+	<head>
+		<title>Home</title>
+		@Styles.Render("~/Design/bootstrap.css")
+
+	</head>
+<body>
+    @{
+        if (checker == "true")
+        {
+            @Html.Partial("~/Views/Shared/header1.cshtml")
+        }
+        else
+        {
+            @Html.Partial("~/Views/Shared/header.cshtml")
+        }
+    }
+    <script>
+        document.getElementById("shop").style.color = "blue";
+    </script>
+    <!-- ------------------------------------------------------------------------------------------------------ -->
+    <br /><br /><br />
+        <div class="row">
+    @{
+        int start = 0, end = 0, totalPages = 0;
+        if (medicine.Count() % 12 == 0)
+        {
+            totalPages = medicine.Count() / 12;
+        }
+        else
+        {
+            totalPages = (medicine.Count() / 12) + 1;
+        }
+        for (int v = 1; v <= totalPages; v++)
+        {
+            if (pagenum == v)
+            {
+                end = v * 12;
+                start = end - 12;
+            }
+        }
+        int count =1;
+        for (int i = start; i < end; i++)
+        {
+            if (i >= medicine.Count())
+            {
+                break;
+            }
+            
+            <div class="col-sm-6 col-lg-4 mb-4" data-aos="fade-up">
+                <div class="card">
+                    <img class="card-img-top" src="@Url.Content(imgPath.ElementAt(i))" width="20" height="300" alt="Card image">
+                    <div class="card-body">
+                        <h4 class="card-title">@medicine.ElementAt(i)</h4>
+                        <p class="card-text">Rs @price.ElementAt(i)</p>
+                        <a onclick="openPage('@i')" href="javascript:void(0);" class="btn btn-primary">Buy</a>
+                    </div>
+                </div>
+           </div>
+           
+        }
+    }
+            </div>
+    <form name="shopSingle" action="@Url.Action("Single", "ShopSingle")" method="post">
+        <input type="text" name='indexx' style="visibility: hidden;">
+        <input type="submit" style="visibility: hidden;">
+    </form>
+    <script>
+        function openPage(indexxx) {
+            document.shopSingle.indexx.value = indexxx;
+            document.shopSingle.submit();
+        }
+    </script>
+
+    <div class="row" data-aos="fade-up">
+        <div class="col-md-12 text-center">
+            <div class="col-md-12">
+                @{
+                    if (pagenum > 1)
+                    {
+                        <form style="display: inline-block;" action="@Url.Action("Previous", "NextPage")" method="get">
+                            <input type="submit" value="Previous Page">
+                        </form>
+                    }
+                    if (pagenum < totalPages)
+                    {
+                        <form style="display: inline-block;" action="@Url.Action("Next", "NextPage")" method="post">
+                            <input type="submit" value="Next Page">
+                        </form>
+                    }
+
+                }
+            </div>
+        </div>
+    </div>
+
+    <br /><br /><br />
+    <!-- ------------------------------------------------------------------------------------------------------ -->
+    @Html.Partial("~/Views/Shared/footer.cshtml")
+</body>
+
+
+
+</html>

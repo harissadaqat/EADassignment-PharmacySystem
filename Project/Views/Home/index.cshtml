@@ -1,0 +1,104 @@
+@{
+    Session["pagenumber"] = 1;
+    String checker = (String) Session["flag"];
+}
+
+<html>
+	<head>
+		<title>Home</title>
+        @Styles.Render("~/Design/bootstrap.css")       
+	</head>
+	<body>
+        @{
+            if (checker == "true")
+            {
+                @Html.Partial("~/Views/Shared/header1.cshtml")
+            }
+            else
+            {
+                @Html.Partial("~/Views/Shared/header.cshtml")
+            }
+        }
+        <script>
+            document.getElementById("home").style.color = "blue";
+        </script>
+	<!-- ------------------------------------------------------------------------------------------------------ -->
+        <br /><br />
+        <div class="site-section">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12 text-center">
+                        <span class="icon-check_circle display-3 text-success"></span>
+                        <h2 class="display-3 text-black">Featured Products</h2>
+                    </div>
+                </div>
+            </div>
+        </div>		
+        <br/><br/><br/>
+					<div class="row">
+						<div class="col-sm-3 card" style="left:300px;">
+						  <img class="card-img-top" src="~/Design/surbexZ.jpg" width="30px" height="300px" alt="Card image">
+						  <div class="card-body">
+							<h4 class="card-title">Surbex Z</h4>
+							<p class="card-text">Rs 350</p>
+                  <a href="~/Home/Shop" class="btn btn-primary">Shop Now</a>
+						  </div>
+						</div>
+						
+						<div class="col-sm-3 card" style="left:400px;">
+                            <img class="card-img-top" src="~/Design/entamizole.jpg" width="30px" height="300px" alt="Card image">
+						  <div class="card-body">
+							<h4 class="card-title">Entamizole</h4>
+							<p class="card-text">Rs 250</p>
+                  <a href="~/Home/Shop" class="btn btn-primary">Shop Now</a>
+						  </div>
+						</div>
+						
+					</div>
+				<br/><br/><br/>
+				
+				<br/><br/><br/>
+					<div class="row">
+						<div class="col-sm-3 card" style="left:300px;">
+                            <img class="card-img-top" src="~/Design/sunnyD.jpg" width="30px" height="300px" alt="Card image">
+						  <div class="card-body">
+							<h4 class="card-title">Sunny D</h4>
+							<p class="card-text">Rs 420</p>
+                  <a href="~/Home/Shop" class="btn btn-primary">Shop Now</a>
+						  </div>
+						</div>
+						
+						<div class="col-sm-3 card" style="left:400px;">
+                            <img class="card-img-top" src="~/Design/vitrum.jpg" width="30px" height="300px" alt="Card image">
+						  <div class="card-body">
+							<h4 class="card-title">Vitrum</h4>
+							<p class="card-text">Rs 120</p>
+                  <a href="~/Home/Shop" class="btn btn-primary">Shop Now</a>
+						  </div>
+						</div>
+						
+					</div>
+				<br/><br/><br/>
+				
+				<div style="margin-left: 300px;">
+					<h2>
+						Get Your Medicine At Your Door
+					</h2>
+					
+					<p>
+						Providing quality medicine of different brands accross <br/> the country
+					</p>
+		
+					<a href="#" class="btn btn-primary">Shop Now</a>
+					
+				</div>
+	
+				<br/><br/><br/>
+
+	
+	
+	<!-- ------------------------------------------------------------------------------------------------------ -->	
+		@Html.Partial("~/Views/Shared/footer.cshtml")
+	</body>
+
+</html>

@@ -1,0 +1,135 @@
+@{
+    ViewBag.pagenumber = 1;
+    String checker = (String)Session["flag"];
+}
+@using System.Data.SqlClient;
+@using System;
+@using System.Collections.Generic;
+@using System.Linq;
+@{
+    int medicineIndex = (int)Session["medicineIndex"];
+    SqlConnection conn = new SqlConnection(@"Data Source=(LocalDB)\v11.0;AttachDbFilename='E:\8 SEMESTER\EAD Assignment-3\Pharmacy management system\Project\App_Data\Store.mdf';Integrated Security=True");
+    SqlCommand cmd;
+    List<String> medicine = new List<String>();
+    List<String> imgPath = new List<String>();
+    List<int> price = new List<int>();
+    List<int> qty = new List<int>();
+    int pagenum = (int)Session["pagenumber"];
+    String sql = "select * from Stock";
+    conn.Open();
+    cmd = new SqlCommand(sql, conn);
+    SqlDataReader reader = cmd.ExecuteReader();
+    while (reader.Read())
+    {
+        medicine.Add(reader.GetString(1));
+        qty.Add(int.Parse(reader.GetString(2)));
+        imgPath.Add(reader.GetString(3));
+        price.Add(int.Parse(reader.GetString(4)));
+    }
+    conn.Close();
+    String mediname = medicine.ElementAt(medicineIndex);
+    String email = (String)Session["email"];
+
+}
+
+<html>
+	<head>
+		<title>Home</title>
+		@Styles.Render("~/Design/bootstrap.css")
+
+	</head>
+	<body>
+		@{
+            if (checker == "true")
+            {
+                @Html.Partial("~/Views/Shared/header1.cshtml")
+            }
+            else
+            {
+                @Html.Partial("~/Views/Shared/header.cshtml")
+            }
+        }
+	<!-- ------------------------------------------------------------------------------------------------------ -->
+				<br/><br/><br/>
+					<div class="row">
+						<div class="col-sm-3 card" style="left:300px;">
+                            <img class="card-img-top" src="@Url.Content(imgPath.ElementAt(medicineIndex))" width="30px" height="400px" alt="Card image">
+						</div>
+						
+						<div class="col-sm-3 card" style="left:300px;">
+						  <div class="card-body">
+							<h4 class="card-title">@medicine.ElementAt(medicineIndex)</h4>
+							<p class="card-text">Rs @price.ElementAt(medicineIndex)</p>
+							<p class="card-text">Available Quantity : @qty.ElementAt(medicineIndex)</p>
+								
+                  <div class="mb-5">
+                      <div class="input-group mb-3" style="max-width: 120px;">
+                          <div class="input-group-prepend">
+                              <button class="btn btn-outline-primary js-btn-minus" onclick="javascript:minuss()" type="button">&minus;</button>
+                          </div>
+                          <input id="numm" type="text" class="form-control text-center" value="1" placeholder="" aria-label="Example text with button addon" aria-describedby="button-addon1">
+                          <div class="input-group-append">
+                              <button class="btn btn-outline-primary js-btn-plus" onclick="javascript:pluss()" type="button">&plus;</button>
+                          </div>
+                      </div>
+                      <script type="text/javascript">
+                          function minuss(){
+                              if(document.getElementById("numm").value == "1")
+                                  document.getElementById("numm").value = "2";
+                              var no = parseInt(document.getElementById("numm").value);
+                              no--;
+                              document.getElementById("numm").value = no.toString();
+                              
+                          }
+                          
+                          function pluss(){
+                              var no = parseInt(document.getElementById("numm").value);
+                              no++;
+                              if(no > Number (@qty.ElementAt(medicineIndex))){
+                                    no=25;
+                                    document.getElementById("numm").value = no.toString();
+                          }
+                              else{
+                                document.getElementById("numm").value = no.toString();
+                              }
+                          }
+                      </script>
+                  </div>
+							
+                  <a onclick="javascript:addCart()" href="javascript:void(0);" class="btn btn-primary">Add To Cart</a>
+						  </div>
+						</div>
+						
+					</div>
+        <form name="cartItems" action="@Url.Action("AddAction", "AddToCart")" method="post">
+            <input type="text" name='qty' style="visibility: hidden;">
+            <input type="text" name='medicine' value="@mediname" style="visibility: hidden;">
+            <input type="text" name='available' value="@qty.ElementAt(medicineIndex)" style="visibility: hidden;">
+            <input type="submit" style="visibility: hidden;">
+        </form>
+        <script>
+            function addCart(){
+                if(String('@email') != ""){
+                    var quan =parseInt(document.getElementById("numm").value);
+                    if(quan <= Number (@qty.ElementAt(medicineIndex))){
+                        document.cartItems.qty.value = quan.toString();
+                        document.cartItems.submit();
+                    }
+                    else
+                        alert("Quantity exceeds available quantity!");
+                }
+                else{
+                    alert("You Must Login First!");
+                    document.location.assign("Login");
+                }
+            }
+        </script>
+
+				<br/><br/><br/>
+				
+	
+	<!-- ------------------------------------------------------------------------------------------------------ -->	
+        @Html.Partial("~/Views/Shared/footer.cshtml")
+	</body>
+
+</html>

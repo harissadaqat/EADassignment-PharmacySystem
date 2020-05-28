@@ -1,0 +1,25 @@
+﻿<div id="head">
+    <div class="jumbotron" style="background-color:black;color:white;">
+        <div class="container">
+            <h1>
+                <span style="font-weight:bold;font-style:italic;">&nbsp;Hi @Session["userName"] &nbsp;</span>
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                <span style="border-style: double;font-weight:bold;font-style:italic;">&nbsp;Haris Pharmacy &nbsp;</span>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <div class="btn-group">
+                    <a href="~/Home/Cart" class="btn btn-primary" style="background-color:white;color:black;border-color:white;">Cart</a>
+                    <a onclick="document.logForm.submit();" href="javascript:void(0);" class="btn btn-primary" style="background-color:white;color:black;border-color:white;">Logout</a>
+                </div>
+            </h1>
+        </div>
+    </div>
+    <form name="logForm" action="@Url.Action("confirmLogout", "Logout")" method="post">
+        <input type="submit" style="visibility: hidden;">
+    </form>
+    <div class="btn-group" style="left:560px;">
+        <a id="home" href="~/Home/Index" class="btn btn-lg" style="color:black;">Home</a>
+        <a id="shop" href="~/Home/Shop" class="btn btn-lg" style="color:black;">Shop</a>
+        <a id="about" href="#" class="btn btn-lg" style="color:black;">About</a>
+        <a id="cooontact" href="~/Home/Contact" class="btn btn-lg" style="color:black;">Contact</a>
+    </div>
+</div>

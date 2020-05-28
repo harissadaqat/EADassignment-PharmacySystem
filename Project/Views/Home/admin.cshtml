@@ -1,0 +1,152 @@
+﻿@{
+    String str = (String)Session["userName"];
+}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+      <title>Admin</title>
+      @Styles.Render("~/Design/bootstrap.css")
+  </head>
+  <body>
+  
+      <div id="head">
+          <div class="jumbotron" style="background-color:black;color:white;">
+              <div class="container">
+                  <h1>
+                      <span style="font-weight:bold;font-style:italic;">&nbsp;Hi @Session["userName"] &nbsp;</span>
+                      &nbsp;&nbsp;&nbsp;&nbsp;
+                      <span style="border-style: double;font-weight:bold;font-style:italic;">&nbsp;Admin Panel &nbsp;</span>
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                      <div class="btn-group">
+                          <a onclick="document.logForm.submit();" href="javascript:void(0);" class="btn btn-primary" style="background-color:white;color:black;border-color:white;">Logout</a>
+                      </div>
+                  </h1>
+              </div>
+          </div>
+          <form name="logForm" action="@Url.Action("confirmLogout", "Logout")" method="post">
+              <input type="submit" style="visibility: hidden;">
+          </form>
+      </div>
+      
+      <div class="site-section">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+            <h2 class="h3 mb-3 text-black">Update Stock &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp; Remove Medicine &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                 Add Medicine </h2>
+          </div>
+          <div class="col-md-4">
+
+              <form action="@Url.Action("UpdateMedicine","AdminRole")" method="post">
+
+                  <div class="p-3 p-lg-5 border">
+                      <div class="form-group row">
+                          <div class="col-md-12">
+                              <label for="c_fname" class="text-black">Medicine Name <span class="text-danger">*</span></label>
+                              <input type="text" class="form-control" id="medicineName" name="medicineName">
+                          </div>
+                          <div class="col-md-12">
+                              <label for="c_lname" class="text-black">Quantity To Add <span class="text-danger">*</span></label>
+                              <input type="number" class="form-control" id="addQty" name="addQty">
+                          </div>
+                          <div class="col-md-12">
+                              <label for="c_lname" class="text-black">OR Quantity To Subtract <span class="text-danger">*</span></label>
+                              <input type="number" class="form-control" id="subQty" name="subQty">
+                          </div>
+                      </div>
+                      <div class="form-group row">
+                          <div class="col-md-12">
+                              <label for="c_email" class="text-black">Price <span class="text-danger">*</span></label>
+                              <input type="number" class="form-control" id="price" name="price" placeholder="">
+                          </div>
+                      </div>
+                      <div class="form-group row">
+                          <div class="col-lg-12">
+                              <input type="submit" class="btn btn-primary btn-lg btn-block" value="Update Stock">
+                          </div>
+                      </div>
+                  </div>
+
+              </form>
+          </div>
+            
+          <div class="col-md-4">
+
+              <form action="@Url.Action("DeleteMedicine","Logout")" method="get">
+
+                  <div class="p-3 p-lg-5 border">
+                      <div class="form-group row">
+                          <div class="col-md-12">
+                              <label for="c_fname" class="text-black">Medicine Name <span class="text-danger">*</span></label>
+                              <input type="text" class="form-control" id="medicineName" name="medicineName">
+                          </div>
+                      </div>
+                      <div class="form-group row">
+                          <div class="col-lg-12">
+                              <input type="submit" class="btn btn-primary btn-lg btn-block" value="Remove From Stock">
+                          </div>
+                      </div>
+                  </div>
+              </form>
+          </div>
+                      
+          <div class="col-md-4">
+
+              <form action="@Url.Action("AddMedicine","AdminRole")" method="get">
+
+                  <div class="p-3 p-lg-5 border">
+                      <div class="form-group row">
+                          <div class="col-md-12">
+                              <label for="c_fname" class="text-black">Medicine Name <span class="text-danger">*</span></label>
+                              <input type="text" class="form-control" id="medicineName" name="medicineName">
+                          </div>
+                          <div class="col-md-12">
+                              <label for="c_lname" class="text-black">Quantity<span class="text-danger">*</span></label>
+                              <input type="text" class="form-control" id="addQty" name="addQty">
+                          </div>
+                      </div>
+                      <div class="form-group row">
+                          <div class="col-md-12">
+                              <label for="c_email" class="text-black">Price <span class="text-danger">*</span></label>
+                              <input type="text" class="form-control" id="price" name="price" placeholder="">
+                          </div>
+                          <div class="col-md-12">
+                              <label for="c_email" class="text-black">Upload Image <span class="text-danger">*</span></label>
+                              <input type="file" class="form-control" id="imgFile" name="imgFile" placeholder="">
+                          </div>
+                      </div>
+                      <div class="form-group row">
+                          <div class="col-lg-12">
+                              <input type="submit" class="btn btn-primary btn-lg btn-block" value="Add to Stock">
+                          </div>
+                      </div>
+                  </div>
+
+              </form>
+          </div>  
+            
+            
+        </div>
+      </div>
+    </div>
+      
+
+      @Html.Partial("~/Views/Shared/footer.cshtml")
+
+  <script src="js/jquery-3.3.1.min.js"></script>
+  <script src="js/jquery-ui.js"></script>
+  <script src="js/popper.min.js"></script>
+  <script src="js/bootstrap.min.js"></script>
+  <script src="js/owl.carousel.min.js"></script>
+  <script src="js/jquery.magnific-popup.min.js"></script>
+  <script src="js/aos.js"></script>
+
+  <script src="js/main.js"></script>
+    
+  </body>
+</html>
